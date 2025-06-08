@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  postgres_nest_db:
+    image: postgres:13
+    container_name: postgres_nest_db
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_DB: bd_backend_nest2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+volumes:
+  postgres_data:
