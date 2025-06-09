@@ -3,8 +3,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
-import { privateDecrypt } from 'crypto';
+import { In, Repository } from 'typeorm';
+
+import * as bcrypt from 'bcrypt';
+import { Role } from '../roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,12 +15,15 @@ export class UsersService {
   constructor(
   @InjectRepository(User)
   //para que funcione el Repository debemos de importar el typeorm en el modulo de users
-  private usersRepository: Repository<User>
+  private usersRepository: Repository<User>,
+  @InjectRepository(Role)
+  private rolesRepository: Repository<Role>
+
  ) {}
 
- async create(createUserDto: CreateUserDto): Promise<User> {
+ async create(createUserDto: CreateUserDto): Promise<any> {
     // capturamos los mas importantes del dto y con ...rest capturamos el resto
-    const {email, username, ...rest } = createUserDto;
+    const {email, username, roleIds, ...rest } = createUserDto;
 
     // verificar si ya existe el username
    const existeusername = await this.usersRepository.findOne({where: {username: username}});
@@ -34,10 +39,36 @@ export class UsersService {
    
     }
 
+    //roles 
+    let roles: Role[] = [];
+
+    if (roleIds?.length) {
+      roles = await this.rolesRepository.find({where: {id: In(roleIds)}});
+      if (roles.length !== roleIds.length) {
+        throw new BadRequestException(`Los roles no existen`);
+      }
+    }
+
+
+
+    //encriptar la password
+   // console.log(rest);
+    // el 12 es la cantidad de rondas de encriptacion mientas ma alta sea mas seguro sera
+    const hashPassword = await bcrypt.hash(rest.password, 12);
+    //console.log(hashPassword);
     const newUser = this.usersRepository.create({
-      username, email, ...rest
+      //deberia de ser asi username: username pero como es el mismo nombre no es necesario
+      username, 
+      email, 
+      password: hashPassword,
+      roles
     });
-    return this.usersRepository.save(newUser);
+
+    this.usersRepository.save(newUser);
+    const {password, ...resto_datos} = newUser
+
+
+    return resto_datos;
 
   }
 

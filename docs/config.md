@@ -9,4 +9,4 @@ npm i --save @nestjs/config
 
 ## como lo habilitamos el dotenv, en el archivo app.module.ts
 
-- las variables de entorno definidas externamente son visibles dentro de Node.js a traves de 'process.env'
+- las variables de entorno definidas externamente son visibles dentro de Node.js a traves de 'process.env' ej: 'process.env.PORT'

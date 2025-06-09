@@ -7,9 +7,9 @@ POST http://127.0.0.1:3000/users
 Content-Type: application/json
 
 {
-    "username": "juancho",
-    "email": "juancho@mail.com",
-    "password": "juancho1234"
+    "username": "chool2",
+    "email": "cho2@mail.com",
+    "password": "choo221234"
 }
 
 ### mostrar un usuario por id
@@ -25,3 +25,16 @@ Content-Type: application/json
 }
 ### eliminar
 DELETE http://127.0.0.1:3000/users/1099dc42-0035-4f59-b831-7700ff1393b6
+
+
+### crear usuario con roles
+
+POST http://127.0.0.1:3000/users
+Content-Type: application/json
+
+{
+    "username": "an222ppl2",
+    "email": "an222pp2@mail.com",
+    "password": "pplooo221234",
+    "roleIds":["0f01bc44-06be-4768-b640-148cd8317f0e", "b5473e9a-a18d-480e-b9d5-53d297133cca"]
+}
