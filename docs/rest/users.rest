@@ -7,9 +7,9 @@ POST http://127.0.0.1:3000/users
 Content-Type: application/json
 
 {
-    "username": "chool2",
-    "email": "cho2@mail.com",
-    "password": "choo221234"
+    "username": "anitl2",
+    "email": "anit@mail.com",
+    "password": "anit1234"
 }
 
 ### mostrar un usuario por id

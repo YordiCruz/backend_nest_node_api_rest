@@ -86,6 +86,15 @@ async findOne(id: string): Promise<User> {
     return user;
   }
 
+  //definimos el findbyemail
+  async findOneByEmail(email: string){
+     const user = await this.usersRepository.findOneBy({email});
+    if (!user) {
+      throw new NotFoundException(`El usuario con "${email}" no existe`);
+    }
+    return user;
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     //reutilizamos la funcion anterior
     const user = await this.findOne(id);

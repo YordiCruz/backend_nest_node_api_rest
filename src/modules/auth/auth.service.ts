@@ -5,13 +5,17 @@ import { User } from '../admin/users/entities/user.entity';
 
 import {compare} from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../admin/users/users.service';
 @Injectable()
 export class AuthService {
     
     constructor(
 
-        @InjectRepository(User)
-        private usersRepository: Repository<User>,
+        //@InjectRepository(User)
+        //private usersRepository: Repository<User>,
+        private userService: UsersService,
+        private jwtService: JwtService
 
     ) {}
 
@@ -20,7 +24,7 @@ export class AuthService {
         const {email, password} = credenciales;
 
         //buscar el usuario por email
-        const usuario = await this.usersRepository.findOne({where: {email: email}});
+        const usuario = await this.userService.findOneByEmail(email);
 
         if (!usuario) {
             return new HttpException('El usuario no existe', 404);
@@ -32,6 +36,12 @@ export class AuthService {
             return new HttpException('La contraseña es incorrecta', 401);
         }
 
-        return {user: usuario};
+        // jwt
+        const payload = {id: usuario.id, username: usuario.username};
+        
+        const token = this.jwtService.sign(payload);
+
+
+        return {acces_token:token, user: usuario};
    }
 }
