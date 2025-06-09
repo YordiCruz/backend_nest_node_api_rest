@@ -9,6 +9,7 @@ import { RolesModule } from './modules/admin/roles/roles.module';
 import { PermissionsModule } from './modules/admin/permissions/permissions.module';
 import { Role } from './modules/admin/roles/entities/role.entity';
 import { Permission } from './modules/admin/permissions/entities/permission.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   //aqui habilitamos el dotenv para las variables de entorno
@@ -29,7 +30,8 @@ import { Permission } from './modules/admin/permissions/entities/permission.enti
        }),
    UsersModule,
    RolesModule,
-   PermissionsModule
+   PermissionsModule,
+   AuthModule
   
   ],
   controllers: [AppController],
