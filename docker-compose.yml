@@ -4,6 +4,7 @@ services:
   postgres_nest_db:
     image: postgres:13
     container_name: postgres_nest_db
+    restart: always
     ports:
       - "5436:5432"
     environment:

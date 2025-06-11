@@ -4,9 +4,13 @@ import { In, Repository } from 'typeorm';
 import { User } from '../admin/users/entities/user.entity';
 
 import {compare} from 'bcrypt';
+import {hash} from 'bcrypt';
+
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../admin/users/users.service';
+import { RegisterAuthDto } from './dto/register-auth.dto';
+
 @Injectable()
 export class AuthService {
     
@@ -44,4 +48,16 @@ export class AuthService {
 
         return {acces_token:token, user: usuario};
    }
+
+
+   async register(userObj: RegisterAuthDto){ {
+    // const {password} = userObj;
+    // const passHash = await hash(password, 12);
+    // userObj = {...userObj, password: passHash};
+     return this.userService.create(userObj);
+   }
+   }
+
+
+
 }

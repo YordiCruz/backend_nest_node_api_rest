@@ -3,6 +3,21 @@ POST http://127.0.0.1:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "anit@mail.com",
-    "password": "anit1234"
+    "email": "simon@mail.com",
+    "password": "simon123"
 }
+
+### registro de usuario
+
+POST http://127.0.0.1:3000/auth/register
+Content-Type: application/json
+
+{
+    "username": "simon10",
+    "email": "simon@mail.com",
+    "password": "simon123"
+}
+
+### perfil, debemos proteger esta ruta, nadie podria acceder si no estan autenticados, podemos crear un decorados guards controlara si es correcto el token, hay diferentes guards
+GET http://127.0.0.1:3000/auth/profile
+
