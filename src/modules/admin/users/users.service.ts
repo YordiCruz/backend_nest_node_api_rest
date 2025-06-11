@@ -73,9 +73,31 @@ export class UsersService {
   }
 
   //asignamos tipo de returno para que nos devuelva una promesa con un array
-  findAll(): Promise<User[]> {
+  async findAll(page: number=1, limit: number=10, search: string = '')/*: Promise<User[]>*/ {
+  const queryBuilder =  this.usersRepository.createQueryBuilder('user')
+    .leftJoinAndSelect('user.roles', 'roles')
+    .leftJoinAndSelect('roles.permissions', 'permission')
+    //el % indica cualquier valor al inicio o al final
+    .where('user.username LIKE :search OR user.email LIKE :search', {search: `%${search}%`})
 
-    return this.usersRepository.find();
+    queryBuilder.skip((page - 1) * 10).take(limit);
+    //getManyAndCount obtiene los datos y el total de datos
+    const [users, total] = await queryBuilder.getManyAndCount();
+
+    //calcular el total de paginas
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+     data: users,
+      total,
+      page,
+      limit,
+      totalPages,
+      search
+    }
+
+
+   // return this.usersRepository.find();
   }
 
 async findOne(id: string): Promise<User> {
