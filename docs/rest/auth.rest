@@ -1,4 +1,4 @@
-
+### login
 POST http://127.0.0.1:3000/auth/login
 Content-Type: application/json
 
@@ -20,4 +20,4 @@ Content-Type: application/json
 
 ### perfil, debemos proteger esta ruta, nadie podria acceder si no estan autenticados, podemos crear un decorados guards controlara si es correcto el token, hay diferentes guards
 GET http://127.0.0.1:3000/auth/profile
-Accept: application/json
+Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExOThmYWU2LTMxNzMtNDQ0MS04ODRjLTc3ODY2MTI2ZDU2ZiIsInVzZXJuYW1lIjoic2ltb24xMCIsImlhdCI6MTc0OTY2MDQ4MSwiZXhwIjoxNzQ5NjYwNTQxfQ.VVCwH8BzuJKzmMcPXcuG56A7dsUMY_DgM3PmdQyI5dk

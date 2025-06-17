@@ -1,6 +1,15 @@
 version: '3.9'
 
 services:
+  backend_nest_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_nest_app
+    ports:
+      - '84:3000'
+    depends_on:
+      - postgres_nest_db
   postgres_nest_db:
     image: postgres:13
     container_name: postgres_nest_db

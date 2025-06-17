@@ -19,8 +19,8 @@ import { AuthModule } from './modules/auth/auth.module';
    }),
    TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
-    port: 5436, // el puerto podemos cambiar
+    host: process.env.DB_HOST ,
+    port: 5432, // el puerto podemos cambiar
     username: 'postgres',
     password: 'admin123',
     database: 'bd_backend_nest2',
