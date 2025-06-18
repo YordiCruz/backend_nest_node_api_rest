@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { EntidadComercial } from "./entidad-comercial.entity";
 
 @Entity('contactos')
 export class Contacto {
@@ -21,5 +22,8 @@ export class Contacto {
 
         @Column({type: 'text', nullable: true})
         observaciones: string;
+
+        @ManyToOne(() => EntidadComercial, (entidad) => entidad.contactos)
+        entidad_comercial: EntidadComercial
 
 }

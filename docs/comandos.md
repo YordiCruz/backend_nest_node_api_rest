@@ -22,3 +22,15 @@ nest g res modules/admin/roles
 ```
 nest g res modules/admin/permissions
 ```
+
+## Módulo inventario
+
+```
+nest g module modules/admin/inventario
+nest g res modules/admin/inventario/producto
+nest g res modules/admin/inventario/categoria
+nest g res modules/admin/inventario/almacen
+nest g res modules/admin/inventario/sucursal
+
+
+```

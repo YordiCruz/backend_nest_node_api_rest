@@ -12,6 +12,7 @@ import { Permission } from './modules/admin/permissions/entities/permission.enti
 import { AuthModule } from './modules/auth/auth.module';
 import { PersonasModule } from './modules/admin/personas/personas.module';
 import { EntidadComercialModule } from './modules/admin/entidad-comercial/entidad-comercial.module';
+import { InventarioModule } from './modules/admin/inventario/inventario.module';
 
 @Module({
   //aqui habilitamos el dotenv para las variables de entorno
@@ -35,7 +36,8 @@ import { EntidadComercialModule } from './modules/admin/entidad-comercial/entida
    PermissionsModule,
    AuthModule,
    PersonasModule,
-   EntidadComercialModule
+   EntidadComercialModule,
+   InventarioModule
   
   ],
   controllers: [AppController],
