@@ -13,6 +13,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PersonasModule } from './modules/admin/personas/personas.module';
 import { EntidadComercialModule } from './modules/admin/entidad-comercial/entidad-comercial.module';
 import { InventarioModule } from './modules/admin/inventario/inventario.module';
+import { Categoria } from './modules/admin/inventario/categoria/entities/categoria.entity';
+import { Producto } from './modules/admin/inventario/producto/entities/producto.entity';
+import { Almacen } from './modules/admin/inventario/almacen/entities/almacen.entity';
+import { Sucursal } from './modules/admin/inventario/sucursal/entities/sucursal.entity';
 
 @Module({
   //aqui habilitamos el dotenv para las variables de entorno
@@ -27,7 +31,9 @@ import { InventarioModule } from './modules/admin/inventario/inventario.module';
     username: 'postgres',
     password: 'admin123',
     database: 'bd_backend_nest2',
-    entities:[User, Role, Permission],
+    entities:[
+      __dirname + '/../**/*.entity{.ts,.js}',
+    ],
     synchronize: true //cada q creamos una entidad se sincroniza automaticamente, no debe de usarse en produccion
     
        }),
