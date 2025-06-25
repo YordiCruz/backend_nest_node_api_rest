@@ -1,24 +1,26 @@
-### listar categoria
-GET http://127.0.0.1:3000/categoria
+### listar almacen
+GET http://127.0.0.1:3000/almacen
 
 
-### guardar categoria
+### guardar almacen
 
-POST http://127.0.0.1:3000/categoria
+POST http://127.0.0.1:3000/almacen
 Content-Type: application/json
 
 {
-    "nombre": "Electronicos",
-    "descripcion": "dispositivos para pc"
+    "nombre": "almacen 001",
+    "codigo": "alm-001",
+    "descripcion": "almacen central",
+    "sucursal": "1"
 }
 
-### mostrar categoria
+### mostrar almacen
 
-GET http://127.0.0.1:3000/categoria/3
+GET http://127.0.0.1:3000/almacen/3
 
-### modificar categoria
+### modificar almacen
 
-PATCH  http://127.0.0.1:3000/categoria/1
+PATCH  http://127.0.0.1:3000/almacen/1
 Content-Type: application/json
 
 {

@@ -1,0 +1,12 @@
+GET http://127.0.0.1:3000/sucursal
+
+### guardar
+
+POST http://127.0.0.1:3000/sucursal
+Content-Type: application/json
+
+{
+    "nombre": "segunda sucursal",
+    "ciudad": "La Paz '1",
+    "direccion": "av. 123. zona: mmmm"
+}

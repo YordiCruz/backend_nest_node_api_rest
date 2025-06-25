@@ -15,9 +15,6 @@ export class Sucursal {
     @Column({length: 255})
     direccion: string;
 
-    @Column({length: 20})
-    telefono: string;
-
     @Column({length: 100})
     ciudad: string;
 
