@@ -38,7 +38,7 @@ export class Producto {
     @Column({type: 'date'})
     fecha_registro: Date
 
-    @ManyToOne(() => Categoria, (categoria) => categoria.productos)
+    @ManyToOne(() => Categoria, (categoria) => categoria.productos, {eager: true})
     categoria: Categoria
 
 

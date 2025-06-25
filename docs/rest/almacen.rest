@@ -8,10 +8,10 @@ POST http://127.0.0.1:3000/almacen
 Content-Type: application/json
 
 {
-    "nombre": "almacen 001",
-    "codigo": "alm-001",
+    "nombre": "almacen 002",
+    "codigo": "alm-002",
     "descripcion": "almacen central",
-    "sucursal": "1"
+    "sucursal": 16
 }
 
 ### mostrar almacen
