@@ -1,0 +1,29 @@
+### listar categoria
+GET http://127.0.0.1:3000/categoria
+
+
+### guardar categoria
+
+POST http://127.0.0.1:3000/categoria
+Content-Type: application/json
+
+{
+    "nombre": "Electronicos",
+    "descripcion": "dispositivos para pc"
+}
+
+### mostrar categoria
+
+GET http://127.0.0.1:3000/categoria/3
+
+### modificar categoria
+
+PATCH  http://127.0.0.1:3000/categoria/1
+Content-Type: application/json
+
+{
+    "nombre": "muebles para oficina",
+    "descripcion": "de madera"
+}
+### eliminar categoria // no deberiamos de eliminar, seria bueno cambios de estados o eliminacion temporal para recuperar despues por temas de auditoria no deberiamos de eliminar
+DELETE http://127.0.0.1:3000/categoria/2

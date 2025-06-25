@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Producto } from './entities/producto.entity';
 import { Categoria } from '../categoria/entities/categoria.entity';
 import { Repository } from 'typeorm';
+import { PaginatedProductoResponseDto } from './dto/paginated-producto-response.dto';
 
 @Injectable()
 export class ProductoService {
@@ -23,8 +24,52 @@ export class ProductoService {
     return this.productoRepository.save(producto);
   }
 
-  findAll() {
-    return this.productoRepository.find();
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    sortBy: string = 'id',
+    order: 'ASC' | 'DESC' = 'ASC',
+    almacen: number = 0,
+    activo: boolean = true
+  ): Promise<PaginatedProductoResponseDto> {
+
+    const queryBuilder = this.productoRepository.createQueryBuilder('producto')
+        .leftJoinAndSelect('producto.almacenes', 'almacen')
+        .where('producto.nombre LIKE :search OR producto.marca LIKE :search', {search: `%${search}%`})
+        .andWhere('producto.activo = :activo', {activo})
+
+    //filtro por almacen
+    if (almacen ) {
+      queryBuilder.andWhere('almacen.id = :almacen', {almacen})
+    }
+
+    //ordenacion
+    queryBuilder.orderBy(`producto.${sortBy}`, order);
+
+    // paginacion
+    queryBuilder
+      .skip((page - 1) * limit)
+      .take(limit);
+
+      const [productos, total] = await queryBuilder.getManyAndCount();
+      const totalPages = Math.ceil(total / limit);
+
+      return {
+        data: productos,
+        total,
+        page,
+        limit,
+        totalPages,
+        sortBy,
+        order,
+        almacen,
+        activo,
+        search
+      }
+    //busqueda
+
+
   }
 
   async findOne(id: number) {
