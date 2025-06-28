@@ -17,6 +17,7 @@ import { Categoria } from './modules/admin/inventario/categoria/entities/categor
 import { Producto } from './modules/admin/inventario/producto/entities/producto.entity';
 import { Almacen } from './modules/admin/inventario/almacen/entities/almacen.entity';
 import { Sucursal } from './modules/admin/inventario/sucursal/entities/sucursal.entity';
+import { NotaModule } from './modules/admin/nota/nota.module';
 
 @Module({
   //aqui habilitamos el dotenv para las variables de entorno
@@ -43,7 +44,8 @@ import { Sucursal } from './modules/admin/inventario/sucursal/entities/sucursal.
    AuthModule,
    PersonasModule,
    EntidadComercialModule,
-   InventarioModule
+   InventarioModule,
+   NotaModule
   
   ],
   controllers: [AppController],

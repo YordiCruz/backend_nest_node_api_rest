@@ -1,5 +1,5 @@
 ### listar categoria
-GET http://127.0.0.1:3000/categoria
+GET http://127.0.0.1:3000/producto?page=1&limit=2
 
 
 ### guardar categoria
