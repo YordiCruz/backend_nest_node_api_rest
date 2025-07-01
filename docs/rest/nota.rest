@@ -1,0 +1,72 @@
+GET http://127.0.0.1:3000/nota/1
+
+### guardar nota ingreso
+
+POST http://127.0.0.1:3000/nota
+Content-Type: application/json
+Accept: application/json
+
+{
+    "codigo_nota": "n013",
+    "fecha_emision": "2025-06-11",
+    "tipo_nota": "compra",
+    "entidad_comercial_id": 2,
+    "user_id": "2d0cb5b9-3117-48d7-ab09-12cefb5907fa",
+    "total_calculado": "110.90",
+    "estado_nota": "emitido",
+    "movimientos": [
+        {
+            "producto_id": 7,
+            "almacen_id": 1,
+            "cantidad": 50,
+            "tipo_movimientos": "ingreso",
+            "precio_unitario_compra": 2,
+            "precio_unitario_venta": 5,
+            "total_linea": 100,
+            "observaciones": "nueva venta b"
+        }
+    ]
+
+}
+
+
+### guardar nota salida
+
+POST http://127.0.0.1:3000/nota
+Content-Type: application/json
+Accept: application/json
+
+{
+    "codigo_nota": "n010",
+    "fecha_emision": "2025-06-12",
+    "tipo_nota": "compra",
+    "entidad_comercial_id": 3,
+    "user_id": "2d0cb5b9-3117-48d7-ab09-12cefb5907fa",
+    "subtotal": "50.00",
+    "impuestos":"6.5",
+    "descuento_total": "0.00",
+    "total_calculado": "120.90",
+    "estado_nota": "emitido",
+    "observaciones": "venta parcial",
+    "movimientos": [
+        {
+            "producto_id": 8,
+            "almacen_id": 1,
+            "cantidad": 30,
+            "tipo_movimiento": "salida",
+            "precio_unitario_compra": 2,
+            "precio_unitario_venta": 5,
+            "total_linea": 100,
+            "observaciones": "venta a cliente"
+        }
+    ]
+
+
+
+}
+
+
+
+### mostrar nota
+
+GET http://127.0.0.1:3000/nota/9

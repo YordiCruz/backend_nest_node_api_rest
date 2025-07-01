@@ -16,9 +16,6 @@ export class Movimientos {
     @ManyToOne(() => Producto, {eager: true})
     producto: Producto;
 
-    @Column()
-    tipo_nota: string; // 'compra' | 'venta' 
-
     @ManyToOne(() => Almacen, {eager: true})
     almacen: Almacen;
 

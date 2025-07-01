@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNotaDto } from './dto/create-nota.dto';
 import { UpdateNotaDto } from './dto/update-nota.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,6 +9,7 @@ import { User } from '../users/entities/user.entity';
 import { Producto } from '../inventario/producto/entities/producto.entity';
 import { Almacen } from '../inventario/almacen/entities/almacen.entity';
 import { EntidadComercial } from '../entidad-comercial/entities/entidad-comercial.entity';
+import { AlmacenProducto } from '../inventario/almacen/entities/almacen_producto.entity';
 
 @Injectable()
 export class NotaService {
@@ -26,7 +27,8 @@ export class NotaService {
     private readonly almacenRepository: Repository<Almacen>,
     @InjectRepository(EntidadComercial)
     private readonly entidadComercialRepository: Repository<EntidadComercial>,
-
+    @InjectRepository(AlmacenProducto)
+    private readonly almacenProductoRepository: Repository<AlmacenProducto>,
 
   ) {}
 
@@ -46,13 +48,18 @@ export class NotaService {
 
     //crear la nota
     const nota = await this.notaRepository.create({
-      ...CreateNotaDto, 
+    ...createNotaDto, 
     entidad_comercial_id: entidad,
-    user: user,
-    movimientos: []
+    user: user
+    //movimientos: []
     
     });
     
+    // guardar la nota primero para obtener el id para luego relacionar con los movimientos
+    await this.notaRepository.save(nota);
+
+     const movimientosGuardados: Movimientos[] = [];
+
     for (const movi of createNotaDto.movimientos) {
       const producto = await this.productoRepository.findOneBy({id: movi.producto_id});
        if(!producto){
@@ -65,17 +72,61 @@ export class NotaService {
       }
       const movimiento = await this.movimientoRepository.create({
         ...movi, 
+        nota: nota,
         producto: producto,
-        almacen: almacen,
-        nota: nota
+        almacen: almacen
       });
 
-      nota.movimientos.push(movimiento);
+      // llamar a la funcion para actualizar el stock
+      await this.actualizarStock(almacen, producto, movi.cantidad, movi.tipo_movimientos);
 
+      const movimientoGuardado = await this.movimientoRepository.save(movimiento)
+     movimientosGuardados.push(movimientoGuardado);
+
+      //nota.movimientos.push(movimiento);
+  }
+
+     nota.movimientos = movimientosGuardados;
+
+    //return await this.notaRepository.save(nota);
+
+    return nota;
+  }
+
+  private async actualizarStock(almacen: Almacen, producto: Producto, cantidad: number, tipo: 'ingreso' | 'salida' | 'devolucion') {
+    let almacenProducto = await this.almacenProductoRepository.findOne({
+      where: {
+        almacen: { id: almacen.id },
+        productos: { id: producto.id }
+      },
+      relations: ['almacen', 'producto']
+    });
+
+    if (!almacenProducto) {
+      if (tipo === 'salida') {
+        throw new NotFoundException('No hay stock registrado para el producto en el almacen');
+      }
+      almacenProducto = this.almacenProductoRepository.create({
+        almacen: almacen, productos: producto,
+        cantidad_actual: cantidad,
+        fecha_actualizacion: new Date(),
+      });
+      await this.almacenProductoRepository.save(almacenProducto);
+    
+    }else {
+      if(tipo === 'ingreso' || tipo === 'devolucion'){
+        almacenProducto.cantidad_actual += cantidad;
+      }else if (tipo === 'salida') {
+        if (almacenProducto.cantidad_actual < cantidad) {
+          throw new BadRequestException('No hay stock registrado para el producto en el almacen para la salida');
+        }
+        almacenProducto.cantidad_actual -= cantidad;
+      }
+      almacenProducto.fecha_actualizacion = new Date();
     }
-
-
-    return await this.notaRepository.save(nota);
+    
+    await this.almacenProductoRepository.save(almacenProducto);
+  
   }
 
   findAll() {
@@ -83,7 +134,9 @@ export class NotaService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} nota`;
+    return this.notaRepository.findOne({where: {id}, 
+    relations: ['movimientos']
+    });
   }
 
   update(id: number, updateNotaDto: UpdateNotaDto) {
