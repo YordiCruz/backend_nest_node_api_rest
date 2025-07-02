@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEntidadComercialDto } from './dto/create-entidad-comercial.dto';
 import { UpdateEntidadComercialDto } from './dto/update-entidad-comercial.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntidadComercial } from './entities/entidad-comercial.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EntidadComercialService {
-  create(createEntidadComercialDto: CreateEntidadComercialDto) {
-    return 'This action adds a new entidadComercial';
+
+  constructor(
+    @InjectRepository(EntidadComercial)
+    private readonly entidadComercialRepository: Repository<EntidadComercial>,
+
+  ) {}
+ async create(createEntidadComercialDto: CreateEntidadComercialDto) {
+    const entidad = this.entidadComercialRepository.create(createEntidadComercialDto);
+    return await this.entidadComercialRepository.save(entidad);
   }
 
-  findAll() {
-    return `This action returns all entidadComercial`;
+ async findAll() {
+    return await this.entidadComercialRepository.find({relations: ['contactos']});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} entidadComercial`;
+   async findOne(id: number) {
+    const entidad = await this.entidadComercialRepository.findOne({where: {id}, relations: ['contactos']});
+    if (!entidad) {
+      throw new NotFoundException(`La entidad comercial no encontrada`); 
+    }
+    return entidad;
   }
 
-  update(id: number, updateEntidadComercialDto: UpdateEntidadComercialDto) {
-    return `This action updates a #${id} entidadComercial`;
+  async update(id: number, updateEntidadComercialDto: UpdateEntidadComercialDto) {
+   const entidad = await this.findOne(id);
+   const entidadActualizada = Object.assign(entidad, updateEntidadComercialDto);
+    return await this.entidadComercialRepository.save(entidadActualizada);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} entidadComercial`;
+ async remove(id: number) {
+    const entidad = await this.findOne(id);
+    entidad.activo = false;
+    await this.entidadComercialRepository.remove(entidad);
   }
 }
