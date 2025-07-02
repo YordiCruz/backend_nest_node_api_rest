@@ -1,4 +1,4 @@
-GET http://127.0.0.1:3000/nota/1
+GET http://127.0.0.1:3000/nota?tipo_nota=ingreso&desde=2025-06-01&hasta=2025-06-12&entidad_comercial_id=2&limit=1&page=3
 
 ### guardar nota ingreso
 
@@ -7,23 +7,23 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "codigo_nota": "n013",
-    "fecha_emision": "2025-06-11",
+    "codigo_nota": "n017",
+    "fecha_emision": "2025-07-01",
     "tipo_nota": "compra",
     "entidad_comercial_id": 2,
     "user_id": "2d0cb5b9-3117-48d7-ab09-12cefb5907fa",
-    "total_calculado": "110.90",
+    "total_calculado": "210.90",
     "estado_nota": "emitido",
     "movimientos": [
         {
             "producto_id": 7,
             "almacen_id": 1,
-            "cantidad": 50,
+            "cantidad": 5,
             "tipo_movimientos": "ingreso",
-            "precio_unitario_compra": 2,
+            "precio_unitario_compra": 3,
             "precio_unitario_venta": 5,
             "total_linea": 100,
-            "observaciones": "nueva venta b"
+            "observaciones": "nueva combra 2 b"
         }
     ]
 
@@ -37,9 +37,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "codigo_nota": "n010",
+    "codigo_nota": "n021",
     "fecha_emision": "2025-06-12",
-    "tipo_nota": "compra",
+    "tipo_nota": "ingreso",
     "entidad_comercial_id": 3,
     "user_id": "2d0cb5b9-3117-48d7-ab09-12cefb5907fa",
     "subtotal": "50.00",
@@ -50,15 +50,16 @@ Accept: application/json
     "observaciones": "venta parcial",
     "movimientos": [
         {
-            "producto_id": 8,
+            "producto_id": 40,
             "almacen_id": 1,
             "cantidad": 30,
-            "tipo_movimiento": "salida",
+            "tipo_movimientos": "ingreso",
             "precio_unitario_compra": 2,
             "precio_unitario_venta": 5,
             "total_linea": 100,
-            "observaciones": "venta a cliente"
+            "observaciones": "nueva compra producto"
         }
+
     ]
 
 
