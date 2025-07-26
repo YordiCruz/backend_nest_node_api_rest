@@ -10,6 +10,7 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../admin/users/users.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
+import { json } from 'stream/consumers';
 
 @Injectable()
 export class AuthService {
@@ -41,9 +42,11 @@ export class AuthService {
         }
 
         // jwt
-        const payload = {id: usuario.id, username: usuario.username};
+        const payload = {id: usuario.id, username: usuario.username, email: usuario.email};
         
         const token = this.jwtService.sign(payload);
+        //console.log({acces_token:token, user: usuario});
+        
 
 
         return {acces_token:token, user: usuario};
@@ -57,6 +60,7 @@ export class AuthService {
      return this.userService.create(userObj);
    }
    }
+
 
 
 

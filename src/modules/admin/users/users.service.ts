@@ -72,7 +72,7 @@ export class UsersService {
 
   }
 
-  //asignamos tipo de returno para que nos devuelva una promesa con un array
+  //asignamos tipo de return para que nos devuelva una promesa con un array
   async findAll(page: number=1, limit: number=10, search: string = '')/*: Promise<User[]>*/ {
   const queryBuilder =  this.usersRepository.createQueryBuilder('user')
     .leftJoinAndSelect('user.roles', 'roles')
