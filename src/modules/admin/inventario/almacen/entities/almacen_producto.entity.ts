@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Sucursal } from "../../sucursal/entities/sucursal.entity";
 import { Almacen } from "./almacen.entity";
 import { Producto } from "../../producto/entities/producto.entity";
@@ -16,9 +16,11 @@ export class AlmacenProducto {
     fecha_actualizacion: Date
 
     @ManyToOne(() => Almacen, (almacen) => almacen.productos, {eager: true})
+    @JoinColumn({ name: 'almacenId' }) // Asegura que coincida con tu DB
     almacen: Almacen;
 
     @ManyToOne(() => Producto, (producto) => producto.almacenes, {eager: true})
+    @JoinColumn({ name: 'productosId' })
     productos: Producto;
     
 

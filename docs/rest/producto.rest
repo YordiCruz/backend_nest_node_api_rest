@@ -27,3 +27,58 @@ Content-Type: application/json
 }
 ### eliminar categoria // no deberiamos de eliminar, seria bueno cambios de estados o eliminacion temporal para recuperar despues por temas de auditoria no deberiamos de eliminar
 DELETE http://127.0.0.1:3000/categoria/2
+
+
+
+ {
+      "id": 6,
+      "nombre": "hllaaa",
+      "descripcion": "string",
+      "codigo_barra": "string",
+      "unidad_medida": "string",
+      "marca": "string",
+      "precio_venta_actual": "0.00",
+      "stock_minimo": 0,
+      "imagen_url": "string",
+      "activo": false,
+      "fecha_registro": "2025-06-25",
+      "categoria": {
+        "id": 3,
+        "nombre": "Electronicos",
+        "descripcion": "dispositivos para pc"
+      },
+      "almacenes": null
+    },
+
+###
+
+POST http://127.0.0.1:3000/producto
+Content-Type: application/json
+
+    {
+      "id": 12,
+      "nombre": "hllaaa",
+      "descripcion": "string",
+      "codigo_barra": "staor",
+      "unidad_medida": "string",
+      "marca": "string",
+      "precio_venta_actual": "200020.00",
+      "stock_minimo": 0,
+      "imagen_url": "uploads/paja.jpeg",
+      "activo": true,
+      "fecha_registro": "2025-06-25",
+      "categoriaId": 1,
+      "almacenes": 1
+    }
+
+
+### Subir imagen al producto ID 6
+POST http://localhost:3000/producto/11/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary1234
+
+------WebKitFormBoundary1234
+Content-Disposition: form-data; name="file"; filename="paja.jpeg"
+Content-Type: image/jpeg
+
+< C:\Users\DELL\Downloads\paja.jpeg >
+------WebKitFormBoundary1234--

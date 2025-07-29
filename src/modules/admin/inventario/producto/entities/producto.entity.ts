@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AlmacenProducto } from "../../almacen/entities/almacen_producto.entity";
 import { Categoria } from "../../categoria/entities/categoria.entity";
 
@@ -32,7 +32,7 @@ export class Producto {
     @Column({length: 255, nullable: true})
     imagen_url: string
 
-    @Column()
+    @Column({default: true})
     activo: boolean
 
     @Column({type: 'date'})
@@ -42,7 +42,7 @@ export class Producto {
     categoria: Categoria
 
 
-    @OneToOne(() => AlmacenProducto, (alp) => alp.productos)
+    @OneToMany(() => AlmacenProducto, (alp) => alp.productos)
     almacenes: AlmacenProducto[]
 
 

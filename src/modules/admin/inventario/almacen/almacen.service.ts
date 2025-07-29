@@ -26,10 +26,18 @@ export class AlmacenService {
     return await this.almacenRepository.save(almacen);
   }
 
-  findAll(): Promise<Almacen[]> {
-    return this.almacenRepository.find();
+async findAll(sucursalId?: number): Promise<Almacen[]> {
+  const where: any = {};
+  
+  if (sucursalId) {
+    where.sucursal = { id: sucursalId };
   }
 
+  return this.almacenRepository.find({
+    where,
+    relations: ['sucursal']
+  });
+}
   async findOne(id: number) {
      const almacen = await this.almacenRepository.findOne({where: {id: id}});
     if (!almacen) {

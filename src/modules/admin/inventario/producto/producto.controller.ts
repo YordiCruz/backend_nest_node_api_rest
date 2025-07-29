@@ -3,10 +3,26 @@ import { ProductoService } from './producto.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('producto')
 export class ProductoController {
   constructor(private readonly productoService: ProductoService) {}
+
+
+  //imagenes
+
+   @Post(':id/upload')
+  @UseInterceptors(FileInterceptor('file')) // 'file' debe coincidir con el nombre en tu request
+  async uploadImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: number,
+  ) {
+    return this.productoService.subidaImagen(file, id);
+  }
+
+
 
   @Post()
   create(@Body() createProductoDto: CreateProductoDto) {
@@ -15,7 +31,19 @@ export class ProductoController {
 
   @Post(':id/actualizar-imagen')
   @UseInterceptors(
-    FileInterceptor('file')
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    })
+
   )
   uploadfile(@UploadedFile() file: Express.Multer.File, @Param('id') id: number) {
     return this.productoService.subidaImagen(file, id);

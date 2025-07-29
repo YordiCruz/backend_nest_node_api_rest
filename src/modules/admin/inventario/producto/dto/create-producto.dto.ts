@@ -38,8 +38,8 @@ export class CreateProductoDto {
 
     @ApiProperty({type: 'number'})
     @IsInt()
-    @IsOptional()
-    stock_minimo?: number
+    stock_minimo: number
+    //@IsOptional()
 
     @ApiProperty()
     @IsString()
@@ -47,9 +47,10 @@ export class CreateProductoDto {
     @MaxLength(255)
     imagen_url?: string
 
-    @ApiProperty({type: 'boolean'})
+    @ApiProperty({type: 'boolean', default: true})
     @IsBoolean()
-    activo: boolean
+    @IsOptional()
+    activo?: boolean
 
     @ApiProperty()
     @IsDateString()
